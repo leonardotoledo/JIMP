@@ -8,13 +8,13 @@ E = 200.0e9
 
 # GRID DATA
 Δx = 1.0
-L = 25.0
+lₑ = 25.0
 
 # PARTICLE DATA
 ppe = 2
 vₒ = .1
 n = 1
-β = (2*n-1)*π/2/L
+β = (2*n-1)*π/2/lₑ
 c = sqrt(E/ρ)
 ω = β * c
 T = 2*π/ω
@@ -27,12 +27,12 @@ pct = 0.1
 # MODEL CREATION
 material = Material(E, ρ)
 
-domain = Domain(genGrid(Δx, -Δx, L+2*Δx))
+domain = Domain(genGrid(Δx, -Δx, lₑ+2*Δx))
 
 lockNodeByPosition(domain.grid, 0.0)
 lockNodeByPosition(domain.grid, -Δx)
 
-genParticles(domain, material, ppe, 0.0, L)
+genParticles(domain, material, ppe, 0.0, lₑ)
 for p in domain.particles
     p.v = vₒ*sin(β*p.x) 
 end
@@ -60,7 +60,7 @@ for i=1:num_steps
 
     # Validation metrics
     t[i] = time.t
-    analytical[i] = vₒ/β/L*cos(ω*t[i])
+    analytical[i] = vₒ/β/lₑ*cos(ω*t[i])
     vCM[i] = 0
     for p in time.domain.particles
         vCM[i] += p.v*p.m/M

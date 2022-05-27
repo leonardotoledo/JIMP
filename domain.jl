@@ -16,16 +16,16 @@ function addParticle(domain::Domain, particle::Particle)
     push!(domain.particles, particle)
 end
 
-function genGrid(L, xₘᵢₙ, xₘₐₓ)
+function genGrid(lₑ, xₘᵢₙ, xₘₐₓ)
 
-    nₑ = convert(Int64, ceil(xₘₐₓ-xₘᵢₙ)/L)
+    nₑ = convert(Int64, ceil(xₘₐₓ-xₘᵢₙ)/lₑ)
     nₙ = nₑ + 1
 
     nodes::Vector{Node} = []
     elements::Vector{Element} = []
 
     for i=1:nₙ
-        push!(nodes, Node(xₘᵢₙ+(i-1)*L))
+        push!(nodes, Node(xₘᵢₙ+(i-1)*lₑ))
     end
 
     for i=1:nₑ
@@ -46,12 +46,12 @@ function genGrid(L, xₘᵢₙ, xₘₐₓ)
         end
     end
 
-    return Grid(nodes, elements, L, xₘᵢₙ, xₘₐₓ)
+    return Grid(nodes, elements, lₑ, xₘᵢₙ, xₘₐₓ)
 end
 
 function genParticles(domain::Domain, mat::Material, ppe::Int64, xₘᵢₙ::Float64, xₘₐₓ::Float64)
 
-    dₓₚ::Float64 = domain.grid.L/ppe
+    dₓₚ::Float64 = domain.grid.lₑ/ppe
     m::Float64 = dₓₚ*mat.ρ
     nₚ::Int64 = convert(Int64, ceil(xₘₐₓ-xₘᵢₙ)/dₓₚ)
 

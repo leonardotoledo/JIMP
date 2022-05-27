@@ -13,55 +13,55 @@ function reset(node::Node)
     node.p = 0
 end
 
-function N(node::Node, x::Float64, lₚ::Float64, L::Float64)
+function N(node::Node, x::Float64, lₚ::Float64, lₑ::Float64)
     
     Δx = x - node.x
 
-    if (-L - lₚ < Δx) && (Δx <= -L + lₚ)
-        return (L + lₚ + Δx) * (L + lₚ + Δx) / (4 * L * lₚ)	
+    if (-lₑ - lₚ < Δx) && (Δx <= -lₑ + lₚ)
+        return (lₑ + lₚ + Δx) * (lₑ + lₚ + Δx) / (4 * lₑ * lₚ)	
     end
 
-    if (-L + lₚ < Δx) && (Δx <= -lₚ)
-        return 1 + Δx / L	
+    if (-lₑ + lₚ < Δx) && (Δx <= -lₚ)
+        return 1 + Δx / lₑ	
     end
 
     if (-lₚ < Δx) && (Δx <= lₚ)
-        return 1 - (Δx * Δx + lₚ * lₚ) / (2 * L * lₚ)		
+        return 1 - (Δx * Δx + lₚ * lₚ) / (2 * lₑ * lₚ)		
     end
 
-    if (lₚ < Δx) && (Δx <= L - lₚ)
-        return 1 - Δx / L			
+    if (lₚ < Δx) && (Δx <= lₑ - lₚ)
+        return 1 - Δx / lₑ			
     end
 
-    if (L - lₚ < Δx) && (Δx <= L + lₚ)
-        return (L + lₚ - Δx) * (L + lₚ - Δx) / (4 * L * lₚ)
+    if (lₑ - lₚ < Δx) && (Δx <= lₑ + lₚ)
+        return (lₑ + lₚ - Δx) * (lₑ + lₚ - Δx) / (4 * lₑ * lₚ)
     end
     
     return 0
 end
 
-function ∇N(node::Node, x::Float64, lₚ::Float64, L::Float64)
+function ∇N(node::Node, x::Float64, lₚ::Float64, lₑ::Float64)
 
     Δx = x - node.x
 
-    if (-L - lₚ < Δx) && (Δx <= -L + lₚ)
-        return (L + lₚ + Δx) / (2 * L * lₚ)
+    if (-lₑ - lₚ < Δx) && (Δx <= -lₑ + lₚ)
+        return (lₑ + lₚ + Δx) / (2 * lₑ * lₚ)
     end
 
-    if (-L + lₚ < Δx) && (Δx <= -lₚ)
-        return 1 / L	
+    if (-lₑ + lₚ < Δx) && (Δx <= -lₚ)
+        return 1 / lₑ	
     end
 
     if (-lₚ < Δx) && (Δx <= lₚ)
-        return -Δx / (L * lₚ)	
+        return -Δx / (lₑ * lₚ)	
     end
 
-    if (lₚ < Δx) && (Δx <= L - lₚ)
-        return -1 / L			
+    if (lₚ < Δx) && (Δx <= lₑ - lₚ)
+        return -1 / lₑ			
     end
 
-    if (L - lₚ < Δx) && (Δx <= L + lₚ)
-        return -(L + lₚ - Δx) / (2 * L * lₚ)
+    if (lₑ - lₚ < Δx) && (Δx <= lₑ + lₚ)
+        return -(lₑ + lₚ - Δx) / (2 * lₑ * lₚ)
     end
 
     return 0

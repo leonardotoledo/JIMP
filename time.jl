@@ -19,7 +19,7 @@ function computeΔt(time::Time)
         end
     end
 
-    time.Δt = time.pct*time.domain.grid.L/c
+    time.Δt = time.pct*time.domain.grid.lₑ/c
 end
 
 function advance(time::Time)
@@ -28,7 +28,7 @@ function advance(time::Time)
     reset(time.domain.grid)
 
     b = time.domain.b
-    L = time.domain.grid.L
+    lₑ = time.domain.grid.lₑ
 
     for p in time.domain.particles
 
@@ -36,8 +36,8 @@ function advance(time::Time)
 
         for n in e.nodes
             if !n.isLocked
-                S = N(n, p.x, p.lₚ, L)
-                ∇S = ∇N(n, p.x, p.lₚ, L)
+                S = N(n, p.x, p.lₚ, lₑ)
+                ∇S = ∇N(n, p.x, p.lₚ, lₑ)
 
                 n.m += p.m * S
                 n.p += (p.m * p.v) * S
@@ -63,7 +63,7 @@ function advance(time::Time)
         for n in e.nodes
             if n.m > 0
                 if !n.isLocked
-                    S = N(n, p.x, p.lₚ, L)
+                    S = N(n, p.x, p.lₚ, lₑ)
 
                     p.v += time.Δt * n.f/n.m * S
                     p.x += time.Δt * n.p/n.m * S
@@ -80,7 +80,7 @@ function advance(time::Time)
         for n in e.nodes
             if n.m > 0
                 if !n.isLocked
-                    ∇S = ∇N(n, p.x, p.lₚ, L)
+                    ∇S = ∇N(n, p.x, p.lₚ, lₑ)
                     Lₚ += n.p/n.m*∇S
                 end
             end

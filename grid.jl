@@ -4,7 +4,7 @@ include("particle.jl")
 Base.@kwdef struct Grid
     nodes::Vector{Node}
     elements::Vector{Element}
-    L::Float64
+    lₑ::Float64
     xₘᵢₙ::Float64
     xₘₐₓ ::Float64
 end
@@ -27,7 +27,7 @@ function lockNodeByPosition(grid::Grid, x::Float64)
 end
 
 function mapParticleToElement(grid::Grid, particle::Particle)
-    id = convert(Int64, ceil((particle.x - grid.xₘᵢₙ)/grid.L))
+    id = convert(Int64, ceil((particle.x - grid.xₘᵢₙ)/grid.lₑ))
 
     @assert (id >= 1 && id <= length(grid.elements)) "A particle has gone outside the grid domain limits."
     return grid.elements[id]
