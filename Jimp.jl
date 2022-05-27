@@ -3,45 +3,47 @@ include("time.jl")
 export Jimp
 
 # MATERIAL DATA
-E = 200.0e9
-ρ = 7800.0
+E = 200.0e9         # Elastic modulus
+ρ = 7800.0          # Mass density
+
+# PHYSICAL DOMAIN DATA
+l = 25.0            # Length
+vₒ = .1             # Initial velocity multiplier
+n = 1               # Mode of vibration
+βₙ = (2*n-1)*π/2/l  # Eigenvalue (mode of vibration n)
+ωₙ = βₙ * sqrt(E/ρ) # Frequency of oscilation (mode of vibration n)
+Tₙ = 2*π/ωₙ         # Period (mode of vibration n)
 
 # GRID DATA
-Δx = 1.0
-lₑ = 25.0
+lₑ = 1.0            # Grid element size
 
 # PARTICLE DATA
-ppe = 2
-vₒ = .1
-n = 1
-β = (2*n-1)*π/2/lₑ
-c = sqrt(E/ρ)
-ω = β * c
-T = 2*π/ω
+ppe = 2             # Number of particles per element
 
 # TIME DATA
-t0 = 0
-tf = 5*T
-pct = 0.1
+tₒ = 0              # Initial time
+tₙ = 5*Tₙ           # Final time
+pct = 0.1           # Percentage of critical time step
+
 
 # MODEL CREATION
 material = Material(E, ρ)
 
-domain = Domain(genGrid(Δx, -Δx, lₑ+2*Δx))
+domain = Domain(genGrid(lₑ, -lₑ, l+2*lₑ))
 
 lockNodeByPosition(domain.grid, 0.0)
-lockNodeByPosition(domain.grid, -Δx)
+lockNodeByPosition(domain.grid, -lₑ)
 
-genParticles(domain, material, ppe, 0.0, lₑ)
+genParticles(domain, material, ppe, 0.0, l)
 for p in domain.particles
-    p.v = vₒ*sin(β*p.x) 
+    p.v = vₒ*sin(βₙ*p.x) 
 end
 
 # TIME INTEGRATION
-time = Time(domain, tf, pct)
+time = Time(domain, tₙ, pct)
 computeΔt(time)
 
-num_steps = convert(Int64, ceil((tf-t0)/time.Δt))
+num_steps = convert(Int64, ceil((tₙ-tₒ)/time.Δt))
 num_print_steps = 100
 step = convert(Int64, ceil(num_steps / num_print_steps))
 step_acc = step
@@ -60,7 +62,7 @@ for i=1:num_steps
 
     # Validation metrics
     t[i] = time.t
-    analytical[i] = vₒ/β/lₑ*cos(ω*t[i])
+    analytical[i] = vₒ/βₙ/l*cos(ωₙ*t[i])
     vCM[i] = 0
     for p in time.domain.particles
         vCM[i] += p.v*p.m/M
