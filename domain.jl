@@ -1,10 +1,10 @@
 include("grid.jl")
 
 Base.@kwdef mutable struct Domain
-    grid::Grid
-    particles::Vector{Particle}
-    materials::Vector{Material}
-    b::Float64
+    grid::Grid                  # Domain - grid
+    particles::Vector{Particle} # Domain - particles
+    materials::Vector{Material} # Domain - materials
+    b::Float64                  # Domain - volume force
     Domain(grid) = new(grid, [], [], 0.0)
 end
 

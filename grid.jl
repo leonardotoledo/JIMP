@@ -2,11 +2,11 @@ include("element.jl")
 include("particle.jl")
 
 Base.@kwdef struct Grid
-    nodes::Vector{Node}
-    elements::Vector{Element}
-    lₑ::Float64
-    xₘᵢₙ::Float64
-    xₘₐₓ ::Float64
+    nodes::Vector{Node}         # Grid - nodes
+    elements::Vector{Element}   # Grid - elements
+    lₑ::Float64                 # Grid - element size
+    xₘᵢₙ::Float64               # Grid - left limit
+    xₘₐₓ ::Float64              # Grid - right limit
 end
 
 function reset(grid::Grid)

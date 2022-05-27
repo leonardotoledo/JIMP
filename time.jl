@@ -1,12 +1,12 @@
 include("domain.jl")
 
 Base.@kwdef mutable struct Time
-    domain::Domain
-    tₙ::Float64
-    tₒ::Float64
-    t::Float64
-    Δt::Float64
-    pct::Float64
+    domain::Domain  # Time - domain
+    tₙ::Float64     # Time - final time
+    tₒ::Float64     # Time - initial time
+    t::Float64      # Time - current time
+    Δt::Float64     # Time - time step
+    pct::Float64    # Time - percentage of critical time step
     Time(domain, tₙ, pct) = new(domain, tₙ, 0, 0, 0, pct)
 end
 

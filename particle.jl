@@ -1,16 +1,16 @@
 include("material.jl")
 
 Base.@kwdef mutable struct Particle
-    x::Float64
-    v::Float64
-    m::Float64
-    mat::Material
-    lₚ::Float64
-    Vₒ::Float64
-    V::Float64
-    σ::Float64
-    ε::Float64
-    F::Float64
+    x::Float64      # Particle - position
+    v::Float64      # Particle - velocity
+    m::Float64      # Particle - mass
+    mat::Material   # Particle - material
+    lₚ::Float64     # Particle - half-size
+    Vₒ::Float64     # Particle - initial volume
+    V::Float64      # Particle - current volume
+    σ::Float64      # Particle - stress
+    ε::Float64      # Particle - strain
+    F::Float64      # Particle - deformation gradient
 
     function Particle(x, m, mat, lₚ, v)
         Vₒ = 2*lₚ

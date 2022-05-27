@@ -1,9 +1,9 @@
 Base.@kwdef mutable struct Node
-    x::Float64
-    m::Float64
-    f::Float64
-    p::Float64
-    isLocked::Bool
+    x::Float64      # Node - position
+    m::Float64      # Node - mass
+    f::Float64      # Node - net force
+    p::Float64      # Node - momentum
+    isLocked::Bool  # Node - is locked? (boolean)
     Node(x) = new(x, 0, 0, 0, false)
 end
 

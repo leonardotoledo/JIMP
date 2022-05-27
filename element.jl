@@ -1,9 +1,9 @@
 include("node.jl")
 
 Base.@kwdef mutable struct Element
-    nodes::Vector{Node}
-    left::Element
-    right::Element
+    nodes::Vector{Node} # Element - nodes
+    left::Element       # Element - left neighbor
+    right::Element      # Element - right neighbor
     Element(nodes) = new(nodes)
 end
 
